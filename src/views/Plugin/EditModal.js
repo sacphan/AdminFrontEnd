@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleModal(props) {
-  console.log(props)
     const boardCurrent = props.boardCurrent;
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -47,7 +46,6 @@ export default function SimpleModal(props) {
   const [values,setValues] = React.useState({name:""});
   const boardContext = useContext(BoardsContext);
   const handleOpen = () => {
-      debugger
     setValues({id:boardCurrent.id,name:boardCurrent.name});
     setOpen(true);
   };

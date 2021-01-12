@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleModal(props) {
-   console.log(props)
 const {boards, setBoards}=props;
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
