@@ -32,8 +32,15 @@ import SearchIcon from "@material-ui/icons/Search"; const useStyles = makeStyles
 const DashBoard = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-
+   
   const [rows, setRows] = useState([])
+  const [keyWord, setKeyWord] = React.useState({keyword:""});
+  const handleChange = (event) => {
+    setKeyWord({
+      ...keyWord,
+      [event.target.name]: event.target.value
+    });
+  };
   useEffect(() => {
     async function Init() {
       let getToken = localStorage.getItem("Token");
@@ -58,13 +65,36 @@ const DashBoard = () => {
     Init();
   }, []);
 
+  const search = () => {
+    let getToken = localStorage.getItem("Token");
+    if (getToken) {
+      var token = JSON.parse(getToken);
+      token = token.token
+      const requestURL = APIManager + "/api/SearchUser";
+      const requestOptions = {
+        method: 'Post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(keyWord.keyword)
+      };
+      fetch(requestURL, requestOptions)
+        .then(response => response.json())
+        .then(res => {
+          setRows(res.data);
+        })
+    }  }
   return (
     <div>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField id="standard-basic" label="Search" 
+        value={keyWord.keyword}
+        onChange={handleChange}
+        name = "keyword"
         InputProps={{
           endAdornment: (
-            <InputAdornment>
+            <InputAdornment onClick = {search}>
               <IconButton>
                 <SearchIcon />
               </IconButton>
@@ -72,15 +102,13 @@ const DashBoard = () => {
           )
         }} >
         </TextField>
-        <div >
-
-        </div>
       </form>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>User Name</TableCell>
+              <TableCell>Full Name</TableCell>
               <TableCell align="center">Type of accounts</TableCell>
               <TableCell align="right">Cup</TableCell>
               <TableCell align="right">RateWin&nbsp;(%)</TableCell>
@@ -94,7 +122,10 @@ const DashBoard = () => {
             {rows.map((row) => (
               <TableRow key={row.username}>
                 <TableCell>
-                  {row.username}
+                  {row.username != null ? row.username :""}{row.email != row.username && row.email != null ? `(${row.email})`: ""}
+                </TableCell>
+                <TableCell>
+                  {row.fullName != null ? row.fullName :""}
                 </TableCell>
                 <TableCell align="center">{row.googleId ? "Google" : row.facebookId ? "Facebook" : "System"}</TableCell>
                 <TableCell align="right">{row.cup}</TableCell>

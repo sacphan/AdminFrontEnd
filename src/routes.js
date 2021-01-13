@@ -16,7 +16,7 @@ const routes = (isLoggedIn)=>{
     children: [
       { path: 'dashboard', element: <DashboardView /> },
       { path: 'dashboard/game/:id', element: <ListGameView /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <Navigate to="/404" /> }          
       
     ]
   },

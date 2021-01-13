@@ -17,6 +17,7 @@ import {
 
 } from '@material-ui/core';
 import APIManager from 'src/utils/LinkAPI';
+import { Block } from '@material-ui/icons';
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -99,16 +100,17 @@ export default function DetailChat(props) {
         aria-describedby="simple-modal-description"
       >
         <div style={modalStyle} className={classes.paper}>
-        <div>
-        <h2 style={{ marginTop: "2px", display: "flex", justifyContent: "center" }} id="simple-modal-title">Chat detail</h2>
-      </div>
-          {rows.map((row) => (
-            <div>
-              <TableCell> {row.user.username + ":      " + row.message1}
-              </TableCell>
-            </div>
-          ))}
+          <div >
+            <h2 style={{ marginTop: "2px", display: "flex", justifyContent: "center" }} id="simple-modal-title">Chat detail</h2>
+          </div>
+          <div  style ={{height:"400", width: "400"}}>
+            {rows.map((row) => (
+              <span style ={{display: "block"}}> {row.user.username + ":      " + row.message1}
+              </span>
+            ))}              
+          </div>
           
+
         </div>
       </Modal>
 
